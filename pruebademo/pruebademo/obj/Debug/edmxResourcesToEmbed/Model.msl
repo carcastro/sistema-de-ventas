@@ -1,0 +1,47 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+  <EntityContainerMapping StorageEntityContainer="pruebademoModelStoreContainer" CdmEntityContainer="pruebademoEntities">
+    <EntitySetMapping Name="clientes">
+      <EntityTypeMapping TypeName="pruebademoModel.cliente">
+        <MappingFragment StoreEntitySet="clientes">
+          <ScalarProperty Name="ID" ColumnName="ID" />
+          <ScalarProperty Name="Cliente1" ColumnName="Cliente" />
+          <ScalarProperty Name="Telefono" ColumnName="Telefono" />
+          <ScalarProperty Name="Correo" ColumnName="Correo" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="productos">
+      <EntityTypeMapping TypeName="pruebademoModel.producto">
+        <MappingFragment StoreEntitySet="productos">
+          <ScalarProperty Name="ID" ColumnName="ID" />
+          <ScalarProperty Name="Nombre" ColumnName="Nombre" />
+          <ScalarProperty Name="Precio" ColumnName="Precio" />
+          <ScalarProperty Name="Categoria" ColumnName="Categoria" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="ventas">
+      <EntityTypeMapping TypeName="pruebademoModel.venta">
+        <MappingFragment StoreEntitySet="ventas">
+          <ScalarProperty Name="ID" ColumnName="ID" />
+          <ScalarProperty Name="IDCliente" ColumnName="IDCliente" />
+          <ScalarProperty Name="Fecha" ColumnName="Fecha" />
+          <ScalarProperty Name="Total" ColumnName="Total" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="ventasitems">
+      <EntityTypeMapping TypeName="pruebademoModel.ventasitem">
+        <MappingFragment StoreEntitySet="ventasitems">
+          <ScalarProperty Name="ID" ColumnName="ID" />
+          <ScalarProperty Name="IDVenta" ColumnName="IDVenta" />
+          <ScalarProperty Name="IDProducto" ColumnName="IDProducto" />
+          <ScalarProperty Name="PrecioUnitario" ColumnName="PrecioUnitario" />
+          <ScalarProperty Name="Cantidad" ColumnName="Cantidad" />
+          <ScalarProperty Name="PrecioTotal" ColumnName="PrecioTotal" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+  </EntityContainerMapping>
+</Mapping>

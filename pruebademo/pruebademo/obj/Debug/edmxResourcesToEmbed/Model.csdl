@@ -1,0 +1,119 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Schema Namespace="pruebademoModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+  <EntityType Name="cliente">
+    <Key>
+      <PropertyRef Name="ID" />
+    </Key>
+    <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="Cliente1" Type="String" MaxLength="255" FixedLength="false" Unicode="false" Nullable="false" />
+    <Property Name="Telefono" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
+    <Property Name="Correo" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
+    <NavigationProperty Name="ventas" Relationship="Self.FK_ventas_clientes" FromRole="clientes" ToRole="ventas" />
+  </EntityType>
+  <EntityType Name="producto">
+    <Key>
+      <PropertyRef Name="ID" />
+    </Key>
+    <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="Nombre" Type="String" MaxLength="255" FixedLength="false" Unicode="false" Nullable="false" />
+    <Property Name="Precio" Type="Double" />
+    <Property Name="Categoria" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
+    <NavigationProperty Name="productos1" Relationship="Self.FK_productos_productos" FromRole="productos" ToRole="productos1" />
+    <NavigationProperty Name="producto1" Relationship="Self.FK_productos_productos" FromRole="productos1" ToRole="productos" />
+    <NavigationProperty Name="ventasitems" Relationship="Self.FK_ventasitems_productos" FromRole="productos" ToRole="ventasitems" />
+  </EntityType>
+  <EntityType Name="venta">
+    <Key>
+      <PropertyRef Name="ID" />
+    </Key>
+    <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="IDCliente" Type="Int32" Nullable="false" />
+    <Property Name="Fecha" Type="DateTime" Precision="3" />
+    <Property Name="Total" Type="Double" />
+    <NavigationProperty Name="cliente" Relationship="Self.FK_ventas_clientes" FromRole="ventas" ToRole="clientes" />
+    <NavigationProperty Name="ventasitems" Relationship="Self.FK_ventasitems_ventas" FromRole="ventas" ToRole="ventasitems" />
+  </EntityType>
+  <EntityType Name="ventasitem">
+    <Key>
+      <PropertyRef Name="ID" />
+    </Key>
+    <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="IDVenta" Type="Int32" Nullable="false" />
+    <Property Name="IDProducto" Type="Int32" Nullable="false" />
+    <Property Name="PrecioUnitario" Type="Double" />
+    <Property Name="Cantidad" Type="Double" />
+    <Property Name="PrecioTotal" Type="Double" />
+    <NavigationProperty Name="producto" Relationship="Self.FK_ventasitems_productos" FromRole="ventasitems" ToRole="productos" />
+    <NavigationProperty Name="venta" Relationship="Self.FK_ventasitems_ventas" FromRole="ventasitems" ToRole="ventas" />
+  </EntityType>
+  <Association Name="FK_ventas_clientes">
+    <End Role="clientes" Type="Self.cliente" Multiplicity="1" />
+    <End Role="ventas" Type="Self.venta" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="clientes">
+        <PropertyRef Name="ID" />
+      </Principal>
+      <Dependent Role="ventas">
+        <PropertyRef Name="IDCliente" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_productos_productos">
+    <End Role="productos" Type="Self.producto" Multiplicity="1" />
+    <End Role="productos1" Type="Self.producto" Multiplicity="0..1" />
+    <ReferentialConstraint>
+      <Principal Role="productos">
+        <PropertyRef Name="ID" />
+      </Principal>
+      <Dependent Role="productos1">
+        <PropertyRef Name="ID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_ventasitems_productos">
+    <End Role="productos" Type="Self.producto" Multiplicity="1" />
+    <End Role="ventasitems" Type="Self.ventasitem" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="productos">
+        <PropertyRef Name="ID" />
+      </Principal>
+      <Dependent Role="ventasitems">
+        <PropertyRef Name="IDProducto" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_ventasitems_ventas">
+    <End Role="ventas" Type="Self.venta" Multiplicity="1" />
+    <End Role="ventasitems" Type="Self.ventasitem" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="ventas">
+        <PropertyRef Name="ID" />
+      </Principal>
+      <Dependent Role="ventasitems">
+        <PropertyRef Name="IDVenta" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <EntityContainer Name="pruebademoEntities" annotation:LazyLoadingEnabled="true">
+    <EntitySet Name="clientes" EntityType="Self.cliente" />
+    <EntitySet Name="productos" EntityType="Self.producto" />
+    <EntitySet Name="ventas" EntityType="Self.venta" />
+    <EntitySet Name="ventasitems" EntityType="Self.ventasitem" />
+    <AssociationSet Name="FK_ventas_clientes" Association="Self.FK_ventas_clientes">
+      <End Role="clientes" EntitySet="clientes" />
+      <End Role="ventas" EntitySet="ventas" />
+    </AssociationSet>
+    <AssociationSet Name="FK_productos_productos" Association="Self.FK_productos_productos">
+      <End Role="productos" EntitySet="productos" />
+      <End Role="productos1" EntitySet="productos" />
+    </AssociationSet>
+    <AssociationSet Name="FK_ventasitems_productos" Association="Self.FK_ventasitems_productos">
+      <End Role="productos" EntitySet="productos" />
+      <End Role="ventasitems" EntitySet="ventasitems" />
+    </AssociationSet>
+    <AssociationSet Name="FK_ventasitems_ventas" Association="Self.FK_ventasitems_ventas">
+      <End Role="ventas" EntitySet="ventas" />
+      <End Role="ventasitems" EntitySet="ventasitems" />
+    </AssociationSet>
+  </EntityContainer>
+</Schema>

@@ -1,0 +1,111 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Schema Namespace="pruebademoModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+  <EntityType Name="clientes">
+    <Key>
+      <PropertyRef Name="ID" />
+    </Key>
+    <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="Cliente" Type="varchar" MaxLength="255" Nullable="false" />
+    <Property Name="Telefono" Type="varchar" MaxLength="255" />
+    <Property Name="Correo" Type="varchar" MaxLength="255" />
+  </EntityType>
+  <EntityType Name="productos">
+    <Key>
+      <PropertyRef Name="ID" />
+    </Key>
+    <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="Nombre" Type="varchar" MaxLength="255" Nullable="false" />
+    <Property Name="Precio" Type="float" />
+    <Property Name="Categoria" Type="varchar" MaxLength="255" />
+  </EntityType>
+  <EntityType Name="ventas">
+    <Key>
+      <PropertyRef Name="ID" />
+    </Key>
+    <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="IDCliente" Type="int" Nullable="false" />
+    <Property Name="Fecha" Type="datetime" />
+    <Property Name="Total" Type="float" />
+  </EntityType>
+  <EntityType Name="ventasitems">
+    <Key>
+      <PropertyRef Name="ID" />
+    </Key>
+    <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="IDVenta" Type="int" Nullable="false" />
+    <Property Name="IDProducto" Type="int" Nullable="false" />
+    <Property Name="PrecioUnitario" Type="float" />
+    <Property Name="Cantidad" Type="float" />
+    <Property Name="PrecioTotal" Type="float" />
+  </EntityType>
+  <Association Name="FK_productos_productos">
+    <End Role="productos" Type="Self.productos" Multiplicity="1" />
+    <End Role="productos1" Type="Self.productos" Multiplicity="0..1" />
+    <ReferentialConstraint>
+      <Principal Role="productos">
+        <PropertyRef Name="ID" />
+      </Principal>
+      <Dependent Role="productos1">
+        <PropertyRef Name="ID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_ventas_clientes">
+    <End Role="clientes" Type="Self.clientes" Multiplicity="1" />
+    <End Role="ventas" Type="Self.ventas" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="clientes">
+        <PropertyRef Name="ID" />
+      </Principal>
+      <Dependent Role="ventas">
+        <PropertyRef Name="IDCliente" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_ventasitems_productos">
+    <End Role="productos" Type="Self.productos" Multiplicity="1" />
+    <End Role="ventasitems" Type="Self.ventasitems" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="productos">
+        <PropertyRef Name="ID" />
+      </Principal>
+      <Dependent Role="ventasitems">
+        <PropertyRef Name="IDProducto" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_ventasitems_ventas">
+    <End Role="ventas" Type="Self.ventas" Multiplicity="1" />
+    <End Role="ventasitems" Type="Self.ventasitems" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="ventas">
+        <PropertyRef Name="ID" />
+      </Principal>
+      <Dependent Role="ventasitems">
+        <PropertyRef Name="IDVenta" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <EntityContainer Name="pruebademoModelStoreContainer">
+    <EntitySet Name="clientes" EntityType="Self.clientes" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="productos" EntityType="Self.productos" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="ventas" EntityType="Self.ventas" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="ventasitems" EntityType="Self.ventasitems" Schema="dbo" store:Type="Tables" />
+    <AssociationSet Name="FK_productos_productos" Association="Self.FK_productos_productos">
+      <End Role="productos" EntitySet="productos" />
+      <End Role="productos1" EntitySet="productos" />
+    </AssociationSet>
+    <AssociationSet Name="FK_ventas_clientes" Association="Self.FK_ventas_clientes">
+      <End Role="clientes" EntitySet="clientes" />
+      <End Role="ventas" EntitySet="ventas" />
+    </AssociationSet>
+    <AssociationSet Name="FK_ventasitems_productos" Association="Self.FK_ventasitems_productos">
+      <End Role="productos" EntitySet="productos" />
+      <End Role="ventasitems" EntitySet="ventasitems" />
+    </AssociationSet>
+    <AssociationSet Name="FK_ventasitems_ventas" Association="Self.FK_ventasitems_ventas">
+      <End Role="ventas" EntitySet="ventas" />
+      <End Role="ventasitems" EntitySet="ventasitems" />
+    </AssociationSet>
+  </EntityContainer>
+</Schema>
